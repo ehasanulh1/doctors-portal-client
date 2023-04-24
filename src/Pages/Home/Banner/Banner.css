@@ -1,0 +1,7 @@
+.bg-image {
+    Background-image: url('../../../assets/images/bg.png');
+    Background-size: cover;
+    Background-position: center center;
+    /* Height: 500px; */
+    Position: relative;
+}
