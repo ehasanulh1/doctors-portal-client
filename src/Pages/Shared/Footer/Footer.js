@@ -10,7 +10,7 @@ const Footer = () => {
 
         }}>
             <footer className=" p-10 text-base-content">
-                <div className='footer p-10'>
+                <div className='footer px-0 lg:p-10'>
                     <div>
                         <span className="footer-title">SERVICES</span>
                         <Link to='/' className="link link-hover">Emergency Checkup</Link>
@@ -18,7 +18,7 @@ const Footer = () => {
                         <Link to='/' className="link link-hover">Weekly Checkup</Link>
                         <Link to='/' className="link link-hover">Deep Checkup</Link>
                     </div>
-                    <div className='justify-center w-full'>
+                    <div className='justify-start lg:justify-center w-full'>
                         <div className='grid gap-2 grid-cols-1'>
                             <span className="footer-title">ORAL HEALTH</span>
                             <Link to='/' className="link link-hover">Fluoride Treatment</Link>
@@ -27,7 +27,7 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    <div className='justify-end w-full'>
+                    <div className='justify-start lg:justify-end w-full'>
                         <div className='grid gap-2 grid-cols-1'>
                             <span className="footer-title">OUR ADDRESS</span>
                             <Link to='/' className="link link-hover">New York - 101010 Hudson</Link>
