@@ -1,0 +1,8 @@
+{
+    "files.autoSave": "afterDelay",
+    "editor.wordWrap": "on",
+    "files.associations": {
+        "twig;": "html"
+    },
+    "notebook.formatOnSave.enabled": true
+}
