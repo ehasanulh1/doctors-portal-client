@@ -1,9 +1,11 @@
 import About from "../../Pages/About/About";
 import Appointment from "../../Pages/Appointment/Appointment";
 import ContactUs from "../../Pages/ContactUs/ContactUs";
+import Dashboard from "../../Pages/Dashboard/Dashboard";
 import Login from "../../Pages/Login/Login";
 import Reviews from "../../Pages/Reviews/Reviews";
 import SignUp from "../../Pages/SignUp/SignUp";
+import PrivateRoutes from "./PrivateRoutes/PrivateRoutes";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../layouts/Main");
@@ -43,6 +45,10 @@ const router = createBrowserRouter([
                 element: <SignUp></SignUp>
             }
         ]
+    },
+    {
+        path: '/dashboard',
+        element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>
     }
 ])
 
