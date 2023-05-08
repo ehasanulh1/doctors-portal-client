@@ -3,6 +3,7 @@ import Appointment from "../../Pages/Appointment/Appointment";
 import ContactUs from "../../Pages/ContactUs/ContactUs";
 import Login from "../../Pages/Login/Login";
 import Reviews from "../../Pages/Reviews/Reviews";
+import SignUp from "../../Pages/SignUp/SignUp";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../layouts/Main");
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login></Login>
+            },
+            {
+                path: '/signup',
+                element: <SignUp></SignUp>
             }
         ]
     }
