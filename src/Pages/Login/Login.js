@@ -9,7 +9,8 @@ const Login = () => {
     const [loginError, setLoginError]= useState('')
     const {signIn}=useContext(AuthContext);
     const location = useLocation();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || '/';
 
     const handleLogin = data => {
         console.log(data)
@@ -17,6 +18,7 @@ const Login = () => {
         signIn(data.email, data.password)
         .then(result=>{
             const user = result.user;
+            navigate(from, { replace: true });
             console.log(user)
         })
         .catch(error=>{
