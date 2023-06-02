@@ -22,12 +22,12 @@ const SignUp = () => {
             const userInfo = {
                 displayName: data.name
             }
+            console.log(userInfo)
             updateUser(userInfo)
             .then(()=>{
                 navigate('/');
-                toast('User Update successfully')
             })
-            .catch(err=>console.log(err))
+            .catch(err=>console.log(err));            
         })
         .catch(error=>{
             console.log(error);

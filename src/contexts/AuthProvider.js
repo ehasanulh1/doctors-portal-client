@@ -8,6 +8,7 @@ const auth = getAuth(app)
 const AuthProvider = ({children}) => {
     const [user, setUser]= useState(null);
     const [loading, setLoading]= useState(true);
+    console.log(user)
 
     const providerLogin = provider => {
         setLoading(true);
@@ -24,8 +25,8 @@ const AuthProvider = ({children}) => {
         return signInWithEmailAndPassword(auth, email, password);
     }
 
-    const updateUser = (userInfo)=>{
-        return updateProfile (user.currentUser, userInfo)
+    const updateUser = (userInfo)=>{        
+        return updateProfile (auth.currentUser, userInfo)
     }
 
     const resetPassword = (userEmail)=>{
