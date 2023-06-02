@@ -1,17 +1,31 @@
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AppointmentOptions from './AppointmentOptions';
 import BookingModal from '../BookingModal/BookingModal';
+import { useQuery } from '@tanstack/react-query';
 
-const AvailableAppointment = ({ selectedDate }) => {
-    const [appointmentOptions, setAppointmentOptions] = useState([]);
+const AvailableAppointment = ({ selectedDate }) => {    
     const [treatment, setTreatment] = useState(null);
 
-    useEffect(() => {
-        fetch('appointmentOptions.json')
+// using React Query / TanStack Query
+
+    const { data: appointmentOptions = [] } = useQuery({
+        queryKey: ['appointmentOptions'],
+        queryFn: () => fetch('http://localhost:5000/appointmentOptions')
             .then(res => res.json())
-            .then(data => setAppointmentOptions(data))
-    }, []);
+    })
+
+// another way using react query
+
+    // const {data: appointmentOptions = [] } = useQuery({
+    //     queryKey: ['appointmentOptions'],
+    //     queryFn: async()=>{
+    //         const res = await fetch('http://localhost:5000/appointmentOptions');
+    //         const data = await res.json();
+    //         return data;
+    //     }
+    // })
+    
 
     console.log(treatment)
     return (
@@ -31,7 +45,7 @@ const AvailableAppointment = ({ selectedDate }) => {
             {
                 treatment &&
                 <BookingModal
-                selectedDate={selectedDate}
+                    selectedDate={selectedDate}
                     treatment={treatment}
                     setTreatment={setTreatment}
                 ></BookingModal>
