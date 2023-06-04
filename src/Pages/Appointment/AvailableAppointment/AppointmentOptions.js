@@ -13,6 +13,7 @@ const AppointmentOptions = ({ appointmentOption, setTreatment }) => {
                         htmlFor="booking-modal"
                         className='btn btn-primary bg-gradient-to-r from-primary to-secondary text-white'
                         onClick={() => setTreatment(appointmentOption)}
+                        
                     >Book Appointment</label>
                 </div>
             </div>
