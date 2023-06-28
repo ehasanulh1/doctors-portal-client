@@ -2,12 +2,18 @@ import { format } from 'date-fns';
 import React, { useContext } from 'react';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
     const { name: treatmentName, slots } = treatment;
+    const navigate = useNavigate();
     const date = format(selectedDate, 'PP');
     console.log(date)
     const { user } = useContext(AuthContext);
+    if(!user){
+        alert('Please login first')
+        return navigate('/login')
+    }
 
     const handleBooking = event => {
         event.preventDefault();

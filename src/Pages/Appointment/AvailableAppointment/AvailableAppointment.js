@@ -18,6 +18,7 @@ const AvailableAppointment = ({ selectedDate }) => {
             .then(res => res.json())
     })
 
+
     if(isLoading){
         return <Loading></Loading>
     }
@@ -47,6 +48,7 @@ const AvailableAppointment = ({ selectedDate }) => {
                     ></AppointmentOptions>)
                 }
             </div>
+
             {
                 treatment &&
                 <BookingModal
