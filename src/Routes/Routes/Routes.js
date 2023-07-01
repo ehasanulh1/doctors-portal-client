@@ -1,11 +1,12 @@
 import About from "../../Pages/About/About";
 import Appointment from "../../Pages/Appointment/Appointment";
 import ContactUs from "../../Pages/ContactUs/ContactUs";
-import Dashboard from "../../Pages/Dashboard/Dashboard";
+import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
 import Login from "../../Pages/Login/Login";
 import Reviews from "../../Pages/Reviews/Reviews";
 import SignUp from "../../Pages/SignUp/SignUp";
-import PrivateRoutes from "./PrivateRoutes/PrivateRoutes";
+import DashboardLayout from "../../layouts/DashboardLayout";
+import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../layouts/Main");
@@ -48,7 +49,13 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>
+        element: <PrivateRoutes><DashboardLayout></DashboardLayout></PrivateRoutes>,
+        children:[
+            {
+                path: '/dashboard',
+                element: <MyAppointment></MyAppointment>
+            }
+        ]
     },
 ])
 

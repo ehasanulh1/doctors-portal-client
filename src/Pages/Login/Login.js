@@ -73,7 +73,7 @@ const Login = () => {
                             type='text'
                             {...register("email", { required: "Email Address is required" })}
                             className="input input-bordered w-full max-w-xs"
-                            placeholder="First name" />
+                            placeholder="Email" />
                         {errors.email && <p className='text-red-600'>{errors.email?.message}</p>}
                     </div>
                     <div className="form-control w-full max-w-xs pb-3">
