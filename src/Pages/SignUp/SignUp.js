@@ -3,36 +3,59 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 import { toast } from 'react-hot-toast';
+import useToken from '../../hooks/useToken';
 
 const SignUp = () => {
 
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const {createUser, updateUser} = useContext(AuthContext);
-    const [signupError, setSignupError]= useState('');
+    const { createUser, updateUser } = useContext(AuthContext);
+    const [signupError, setSignupError] = useState('');
+    const [createUserEmail, setCreateUserEmail] = useState('');
+    const [token] = useToken(createUserEmail);
     const navigate = useNavigate();
+    if (token) {
+        navigate('/')
+    }
 
-    const handleSignUp = (data) =>{
-        setSignupError('')
-        console.log(data);
+    const handleSignUp = (data) => {
+        setSignupError('');
+
         createUser(data.email, data.password)
-        .then(result=>{
-            const user = result.user;
-            console.log(user);
-            toast('User created successfully')
-            const userInfo = {
-                displayName: data.name
-            }
-            console.log(userInfo)
-            updateUser(userInfo)
-            .then(()=>{
-                navigate('/');
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                toast('User created successfully')
+                const userInfo = {
+                    displayName: data.name
+                }
+                updateUser(userInfo)
+                    .then(() => {
+                        saveUser(data.name, data.email);
+                    })
+                    .catch(err => console.log(err));
             })
-            .catch(err=>console.log(err));            
-        })
-        .catch(error=>{
-            console.log(error);
-            setSignupError(error.message)
-        })
+            .catch(error => {
+                console.log(error);
+                setSignupError(error.message)
+            })
+
+        const saveUser = (name, email) => {
+            const user = { name, email }
+            fetch('http://localhost:5000/users', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.acknowledged) {
+                        setCreateUserEmail(email)
+                    }
+
+                })
+        }
     }
 
     return (
@@ -62,10 +85,10 @@ const SignUp = () => {
                         <label className="label"><span className="label-text">Password</span></label>
                         <input
                             type='password'
-                            {...register("password", { 
-                                required: "Password is required", 
-                                minLength: {value: 6, message: "Password must be 6 character"},
-                                pattern: {value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])/, message: "Password must be strong"}
+                            {...register("password", {
+                                required: "Password is required",
+                                minLength: { value: 6, message: "Password must be 6 character" },
+                                pattern: { value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])/, message: "Password must be strong" }
                             })}
                             className="input input-bordered w-full max-w-xs"
                             placeholder="Password" />
