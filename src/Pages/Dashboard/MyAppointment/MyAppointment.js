@@ -7,25 +7,21 @@ const MyAppointment = () => {
 
     const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
-    // const { data: myAppointment } = useQuery({
-    //     queryKey: ['myAppointment'],
-    //     queryFn: () => fetch(url)
-    //         .then(res => res.json())
-    // })
-    // console.log(myAppointment)
-
-    const {data: bookings=[]}=useQuery({
+    const { data: bookings = [] } = useQuery({
         queryKey: ['bookings', user?.email],
-        queryFn: async ()=>{
-            const res = await fetch(url,{
-                headers:{
+        queryFn: async () => {
+            const res = await fetch(url, {
+                headers: {
                     authorization: `bearer, ${localStorage.getItem('accessToken')}`
                 }
             });
             const data = await res.json();
+            console.log(data)
             return data;
         }
-    })
+    });
+
+    console.log(bookings)
 
     return (
         <div>
@@ -44,13 +40,13 @@ const MyAppointment = () => {
                     </thead>
                     <tbody>
                         {
-                            bookings.map((booking, i)=><tr key={i}>
-                            <th>{i+1}</th>
-                            <td>{booking.patient}</td>
-                            <td>{booking.treatment}</td>
-                            <td>{booking.appointmentDate}</td>
-                            <td>{booking.slot}</td>
-                        </tr>)
+                            bookings.map((booking, i) => <tr key={i}>
+                                <th>{i + 1}</th>
+                                <td>{booking.patient}</td>
+                                <td>{booking.treatment}</td>
+                                <td>{booking.appointmentDate}</td>
+                                <td>{booking.slot}</td>
+                            </tr>)
                         }
                     </tbody>
                 </table>

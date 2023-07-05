@@ -12,9 +12,11 @@ const SignUp = () => {
     const [signupError, setSignupError] = useState('');
     const [createUserEmail, setCreateUserEmail] = useState('');
     const [token] = useToken(createUserEmail);
+
     const navigate = useNavigate();
     if (token) {
-        navigate('/')
+        navigate('/');
+        console.log(navigate)
     }
 
     const handleSignUp = (data) => {
@@ -23,7 +25,7 @@ const SignUp = () => {
         createUser(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                console.log(user)
                 toast('User created successfully')
                 const userInfo = {
                     displayName: data.name
@@ -51,6 +53,7 @@ const SignUp = () => {
                 .then(res => res.json())
                 .then(data => {
                     if (data.acknowledged) {
+                        console.log(data)
                         setCreateUserEmail(email)
                     }
 
