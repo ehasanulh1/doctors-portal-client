@@ -3,6 +3,7 @@ import Appointment from "../../Pages/Appointment/Appointment";
 import ContactUs from "../../Pages/ContactUs/ContactUs";
 import AddDoctor from "../../Pages/Dashboard/AddDoctor/AddDoctor";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
+import ManageDoctors from "../../Pages/Dashboard/ManageDoctors/ManageDoctors";
 import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
 import Login from "../../Pages/Login/Login";
 import Reviews from "../../Pages/Reviews/Reviews";
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/addDoctor',
                 element: <AdminRoutes><AddDoctor></AddDoctor></AdminRoutes>
+            },
+            {
+                path: '/dashboard/manageDoctor',
+                element: <AdminRoutes><ManageDoctors></ManageDoctors></AdminRoutes>
             }
         ]
     },

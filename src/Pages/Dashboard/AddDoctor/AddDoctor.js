@@ -2,9 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import Loading from '../../Shared/Loading/Loading';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const AddDoctor = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
+
+    const navigate = useNavigate();
 
     const imageHostKey = process.env.REACT_APP_imgbb_key;
 
@@ -22,21 +26,43 @@ const AddDoctor = () => {
         const image = data.image[0]
         const formData = new FormData()
         formData.append('image', image)
-        const url =`https://api.imgbb.com/1/upload?expiration=600&key=${imageHostKey}`;
+        const url = `https://api.imgbb.com/1/upload?expiration=600&key=${imageHostKey}`;
         fetch(url, {
             method: 'POST',
             body: formData
         })
-        .then(res=>res.json())
-        .then(imgData=>{
-            if(imgData.success){
-                console.log(imgData.data.url)
-            }
-        })
+            .then(res => res.json())
+            .then(imgData => {
+                if (imgData.success) {
+                    // create "doctor" objects for save data in Mongodb
+                    const doctor = {
+                        name: data.name,
+                        email: data.email,
+                        specialty: data.specialty,
+                        image: imgData.data.url
+                    }
+
+                    // save doctor information to database
+                    fetch('http://localhost:5000/doctors', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                            authorization: `bearer ${localStorage.getItem('accessToken')}`
+                        },
+                        body: JSON.stringify(doctor)
+                    })
+                        .then(res => res.json())
+                        .then(result=>{
+                            console.log(result)
+                            toast.success(`${data.name} is added successfully!`);
+                            navigate('/dashboard/manageDoctor')
+                        })
+                }
+            })
 
     }
 
-    if(isLoading){
+    if (isLoading) {
         return <Loading></Loading>
     }
 
@@ -67,15 +93,15 @@ const AddDoctor = () => {
 
                 <div className="form-control w-full max-w-xs">
                     <label className="label"><span className="label-text">Specialty</span></label>
-                    <select 
-                    {...register('specialty')}
-                    className="select select-bordered w-full max-w-xs">
+                    <select
+                        {...register('specialty')}
+                        className="select select-bordered w-full max-w-xs">
                         {
-                            specialties?.map(specialty =><option
-                            key={specialty._id}
-                            value={specialty.name}
+                            specialties?.map(specialty => <option
+                                key={specialty._id}
+                                value={specialty.name}
                             >{specialty.name}</option>)
-                        }                        
+                        }
                     </select>
                 </div>
 
