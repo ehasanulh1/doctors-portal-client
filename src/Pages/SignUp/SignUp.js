@@ -4,19 +4,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 import { toast } from 'react-hot-toast';
 import useToken from '../../hooks/useToken';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const SignUp = () => {
-
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const { createUser, updateUser } = useContext(AuthContext);
+    const { createUser, updateUser, providerLogin } = useContext(AuthContext);
     const [signupError, setSignupError] = useState('');
     const [createUserEmail, setCreateUserEmail] = useState('');
     const [token] = useToken(createUserEmail);
-
     const navigate = useNavigate();
+
+    const googleProvider = new GoogleAuthProvider();
+
     if (token) {
         navigate('/');
-        console.log(navigate)
     }
 
     const handleSignUp = (data) => {
@@ -40,25 +41,44 @@ const SignUp = () => {
                 console.log(error);
                 setSignupError(error.message)
             })
+    }
 
-        const saveUser = (name, email) => {
-            const user = { name, email }
-            fetch('http://localhost:5000/users', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(user)
+    const handleGoogleSignIn = () => {
+        providerLogin(googleProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                const userInfo = {
+                    displayName: user.name
+                }
+                updateUser(userInfo)
+                    .then(() => {
+                        saveUser(user.name, user.email);
+                    })
+                    .catch(err => console.log(err));
             })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.acknowledged) {
-                        console.log(data)
-                        setCreateUserEmail(email)
-                    }
+            .catch(error => {
+                console.error(error)
 
-                })
-        }
+            })
+    }
+
+    const saveUser = (name, email) => {
+        const user = { name, email }
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    setCreateUserEmail(email)
+                }
+
+            })
     }
 
     return (
@@ -107,7 +127,7 @@ const SignUp = () => {
                 </form>
                 <p className='text-sm py-3 text-center'>Already have an account? <Link to='/login' className='text-secondary'>PLease Login</Link> </p>
                 <div className="divider">OR</div>
-                <button className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
+                <button onClick={handleGoogleSignIn} className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
             </div>
         </div>
     );
