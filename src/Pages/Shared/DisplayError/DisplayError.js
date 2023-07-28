@@ -19,7 +19,7 @@ const DisplayError = () => {
             <h1 className='text-red-500 text-4xl'>Oops!</h1>
             <p className="text-red-500">Something went wrong!!!</p>
             <p className="text-red-400">{error.statusText || error.message}</p>
-            <p className='text-3xl'>Please <button onClick={handleSignOut}>Sign Out</button> and log back in</p>
+            <p className='text-3xl'>Please <button onClick={handleSignOut()}>Sign Out</button> and log back in</p>
         </div>
     );
 };
