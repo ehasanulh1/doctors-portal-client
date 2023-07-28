@@ -1,5 +1,6 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = ({ booking }) => {
   const [cardError, setCardError] = useState("");
@@ -9,7 +10,7 @@ const CheckoutForm = ({ booking }) => {
   const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
   const elements = useElements();
-  
+  const navigate = useNavigate();
   const { price, email, patient, _id } = booking;
 
   useEffect(() => {
@@ -92,6 +93,7 @@ const CheckoutForm = ({ booking }) => {
             console.log(data);
             setSuccess("Congrats! Your payment completed.");
             setTransactionId(paymentIntent.id);
+            navigate('/dashboard');
           }
         });
     }
